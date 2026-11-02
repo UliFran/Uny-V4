@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="UniHub V4: gestão local-first de estoque, clientes, pedidos, campanhas e financeiro para vendas diretas.">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="UniHub">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="UliFran / Ulisystem® — desenvolvido com Claude (Anthropic)">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-src 'self' about: blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>UniHub V4 · Gestão</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5"/><path d="M12 12v9"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1"/><circle cx="19" cy="20" r="1"/><path d="M2 3h2l2.5 12.5a2 2 0 0 0 2 1.5h9.5a2 2 0 0 0 2-1.6L22 7H5"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7V5a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v10a2 2 0 0 1-2 2H5a3 3 0 0 1-3-3V6"/><path d="M16 13h.01"/></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3Z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="m12 20 9-9-4-4-9 9-1 5 5-1Z"/><path d="m14 6 4 4"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="m7 14 5-5 5 5"/><path d="M4 3h16"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.1.38.32.72.6 1 .3.26.7.4 1.1.4h.1a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.7.6Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 6"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="m16.5 9.4-9-5.2"/><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4 12 22l-9-9V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><path d="M7 7h.01"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/><path d="M19 17v4M17 19h4"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/dashboard" aria-label="UniHub, ir para a visão geral">
+        <span class="brand-mark" aria-hidden="true">UH</span>
+        <span class="brand-text">UNIHUB <small>V4 · Gestão Natura</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Módulos">
+        <a href="#/dashboard" data-nav="dashboard" aria-label="Visão geral"><svg class="icon" aria-hidden="true"><use href="#i-home"></use></svg><span>Visão geral</span></a>
+        <a href="#/estoque" data-nav="estoque" aria-label="Estoque"><svg class="icon" aria-hidden="true"><use href="#i-box"></use></svg><span>Estoque</span></a>
+        <a href="#/clientes" data-nav="clientes" aria-label="Clientes e campanhas"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg><span>Clientes</span></a>
+        <a href="#/pedidos" data-nav="pedidos" aria-label="Pedidos e vendas"><svg class="icon" aria-hidden="true"><use href="#i-cart"></use></svg><span>Pedidos</span></a>
+        <a href="#/financeiro" data-nav="financeiro" aria-label="Financeiro"><svg class="icon" aria-hidden="true"><use href="#i-wallet"></use></svg><span>Financeiro</span></a>
+      </nav>
+      <div class="topbar-actions">
+        <button class="chip chip-warn" id="backup-chip" type="button" hidden title="Baixar backup dos dados"></button>
+        <button class="btn btn-ghost btn-sm" id="btn-backup" type="button" title="Baixar backup dos dados" aria-label="Baixar backup dos dados">
+          <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg><span class="hide-sm">Backup</span>
+        </button>
+        <button class="btn btn-ghost btn-icon" id="btn-settings" type="button" title="Configurações" aria-label="Configurações">
+          <svg class="icon" aria-hidden="true"><use href="#i-settings"></use></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="view" id="view-dashboard" data-view="dashboard" aria-labelledby="dashboard-title">
+      <div class="hero">
+        <div class="hero-inner">
+          <p class="eyebrow">Painel central · V4 local-first</p>
+          <h1 id="dashboard-title">UNIHUB</h1>
+          <p class="hero-lead">Estoque, clientes, pedidos e financeiro no mesmo lugar. Menos planilhas, mais controle.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" type="button" data-action="new-sale"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Novo pedido</button>
+            <button class="btn btn-secondary" type="button" data-action="new-entry"><svg class="icon" aria-hidden="true"><use href="#i-package"></use></svg>Entrada de estoque</button>
+            <button class="btn btn-secondary" type="button" data-action="new-client"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>Novo cliente</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-inner">
+        <div class="kpi-grid" id="dash-kpis" aria-live="polite"></div>
+        <section class="card pipeline-card" aria-labelledby="dash-pipeline-title">
+          <div class="card-head">
+            <div><p class="eyebrow">Operação</p><h2 id="dash-pipeline-title">Fluxo de pedidos</h2></div>
+            <button class="btn btn-ghost btn-sm" type="button" data-action="go-pedidos">Ver pedidos</button>
+          </div>
+          <div id="dash-pipeline"></div>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="card" aria-labelledby="dash-alerts-title">
+            <div class="card-head">
+              <div><p class="eyebrow">Atenção</p><h2 id="dash-alerts-title">Alertas do dia</h2></div>
+              <button class="btn btn-ghost btn-sm" type="button" data-action="go-estoque">Ver estoque</button>
+            </div>
+            <div id="dash-alerts"></div>
+          </section>
+          <section class="card" aria-labelledby="dash-birthdays-title">
+            <div class="card-head">
+              <div><p class="eyebrow">Relacionamento</p><h2 id="dash-birthdays-title">Aniversariantes do mês</h2></div>
+              <button class="btn btn-ghost btn-sm" type="button" data-action="go-clientes">Ver clientes</button>
+            </div>
+            <div id="dash-birthdays"></div>
+          </section>
+          <section class="card dashboard-wide" aria-labelledby="dash-activity-title">
+            <div class="card-head">
+              <div><p class="eyebrow">Movimento</p><h2 id="dash-activity-title">Atividade recente</h2></div>
+              <button class="btn btn-ghost btn-sm" type="button" data-action="go-pedidos">Ver pedidos</button>
+            </div>
+            <div id="dash-activity"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-estoque" data-view="estoque" aria-labelledby="estoque-title" hidden>
+      <div class="section-inner">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Módulo</p>
+            <h1 id="estoque-title">Estoque</h1>
+            <p class="page-lead">Catálogo, entradas, saldo, compras e histórico de movimentações.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" type="button" id="btn-import-catalog"><svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg>Importar catálogo</button>
+            <button class="btn btn-primary" type="button" id="btn-new-product"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Novo produto</button>
+          </div>
+        </header>
+
+        <nav class="tabs" role="tablist" aria-label="Seções do estoque" id="estoque-tabs">
+          <button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="estoque-panel-produtos" data-tab="produtos">Produtos</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="estoque-panel-entradas" data-tab="entradas">Entradas</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="estoque-panel-saldo" data-tab="saldo">Estoque atual</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="estoque-panel-compras" data-tab="compras">Compras</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="estoque-panel-historico" data-tab="historico">Histórico</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="estoque-panel-cadastros" data-tab="cadastros">Cadastros</button>
+        </nav>
+
+        <div class="tab-panel is-active" id="estoque-panel-produtos" role="tabpanel" aria-labelledby="estoque-title">
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="prod-search" aria-label="Buscar produtos" placeholder="Buscar por código, produto, marca, categoria ou linha" autocomplete="off">
+            </label>
+            <select id="prod-brand-filter" aria-label="Filtrar por marca"><option value="">Todas as marcas</option></select>
+            <select id="prod-category-filter" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option></select>
+            <select id="prod-status-filter" aria-label="Filtrar por situação">
+              <option value="ativos">Ativos</option>
+              <option value="inativos">Inativos</option>
+              <option value="todos">Todos</option>
+            </select>
+            <button class="btn btn-ghost btn-sm" type="button" id="btn-export-products"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+          </div>
+          <div id="prod-summary" class="inline-summary"></div>
+          <div class="table-wrap">
+            <table class="data-table" id="products-table">
+              <caption class="sr-only">Produtos cadastrados</caption>
+              <thead><tr><th scope="col">Código</th><th scope="col">Produto</th><th scope="col">Marca / linha</th><th scope="col" class="num">Custo</th><th scope="col" class="num">Revista</th><th scope="col" class="num">Saldo</th><th scope="col">Situação</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="products-empty"></div>
+          <nav class="pagination" id="products-pagination" aria-label="Paginação de produtos"></nav>
+        </div>
+
+        <div class="tab-panel" id="estoque-panel-entradas" role="tabpanel" hidden>
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="entry-search" aria-label="Buscar entradas" placeholder="Buscar por código, produto, ciclo, fornecedor ou observação" autocomplete="off">
+            </label>
+            <button class="btn btn-primary" type="button" id="btn-new-entry"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Nova entrada</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="btn-export-entries"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="entries-table">
+              <caption class="sr-only">Entradas de estoque</caption>
+              <thead><tr><th scope="col">Data</th><th scope="col">Produto</th><th scope="col" class="num">Qtd.</th><th scope="col" class="num">Custo</th><th scope="col">Ciclo</th><th scope="col">Fornecedor</th><th scope="col">Origem</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="entries-empty"></div>
+          <nav class="pagination" id="entries-pagination" aria-label="Paginação de entradas"></nav>
+        </div>
+
+        <div class="tab-panel" id="estoque-panel-saldo" role="tabpanel" hidden>
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="stock-search" aria-label="Buscar no estoque" placeholder="Buscar código, produto, marca, categoria ou linha" autocomplete="off">
+            </label>
+            <select id="stock-status-filter" aria-label="Filtrar por situação do estoque">
+              <option value="">Todas as situações</option>
+              <option value="sem">Sem movimentação</option>
+              <option value="zerado">Zerado</option>
+              <option value="baixo">Abaixo do mínimo</option>
+              <option value="falta">Em falta (encomenda)</option>
+              <option value="ok">OK</option>
+            </select>
+            <label class="check-field"><input type="checkbox" id="stock-only-moved"> Somente com movimentação</label>
+            <button class="btn btn-secondary btn-sm" type="button" id="btn-adjust-stock"><svg class="icon" aria-hidden="true"><use href="#i-pen"></use></svg>Ajustar estoque</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="btn-export-stock"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+          </div>
+          <div class="kpi-grid kpi-grid-compact" id="stock-kpis"></div>
+          <div id="purchase-edit-banner" class="banner" hidden></div>
+          <div class="table-wrap">
+            <table class="data-table" id="stock-table">
+              <caption class="sr-only">Saldo de estoque por produto</caption>
+              <thead><tr><th scope="col">Código</th><th scope="col">Produto</th><th scope="col">Última entrada</th><th scope="col" class="num">Saldo</th><th scope="col" class="num">Mínimo</th><th scope="col">Situação</th><th scope="col" class="actions-col">Compra</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="stock-empty"></div>
+          <nav class="pagination" id="stock-pagination" aria-label="Paginação do estoque"></nav>
+
+          <section class="purchase-draft" aria-labelledby="purchase-draft-title">
+            <div class="card-head">
+              <div>
+                <p class="eyebrow">Reposição</p>
+                <h2 id="purchase-draft-title">Lista para ordem de compra</h2>
+                <p class="muted">Use "Sugerir reposição" para incluir tudo que está em falta ou abaixo do mínimo, e ajuste as quantidades.</p>
+              </div>
+              <div class="button-row">
+              <button class="btn btn-secondary" type="button" id="btn-suggest-purchase"><svg class="icon" aria-hidden="true"><use href="#i-spark"></use></svg>Sugerir reposição</button>
+              <button class="btn btn-success" type="button" id="btn-create-purchase"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>Gerar ordem</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table" id="purchase-draft-table">
+                <caption class="sr-only">Rascunho da ordem de compra</caption>
+                <thead><tr><th scope="col">Código</th><th scope="col">Produto</th><th scope="col" class="num">Saldo</th><th scope="col" class="num">Mínimo</th><th scope="col" class="num">Comprar</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="tab-panel" id="estoque-panel-compras" role="tabpanel" hidden>
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="purchase-search" aria-label="Buscar ordens de compra" placeholder="Buscar por número, produto ou código" autocomplete="off">
+            </label>
+            <select id="purchase-status-filter" aria-label="Filtrar ordens por status">
+              <option value="">Todas</option>
+              <option value="aberta">Abertas</option>
+              <option value="encerrada">Encerradas</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="purchases-table">
+              <caption class="sr-only">Ordens de compra</caption>
+              <thead><tr><th scope="col">Ordem</th><th scope="col">Data</th><th scope="col">Itens</th><th scope="col" class="num">Total</th><th scope="col">Status</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="purchases-empty"></div>
+          <nav class="pagination" id="purchases-pagination" aria-label="Paginação de compras"></nav>
+        </div>
+
+        <div class="tab-panel" id="estoque-panel-historico" role="tabpanel" hidden>
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="history-search" aria-label="Buscar no histórico" placeholder="Buscar por produto, código, nota ou origem" autocomplete="off">
+            </label>
+            <select id="history-type-filter" aria-label="Filtrar por tipo de movimentação">
+              <option value="">Todos os tipos</option>
+              <option value="entrada">Entradas</option>
+              <option value="saida">Saídas</option>
+              <option value="ajuste">Ajustes</option>
+              <option value="devolucao">Devoluções</option>
+            </select>
+            <label class="field-inline">De <input type="date" id="history-from" aria-label="Data inicial"></label>
+            <label class="field-inline">Até <input type="date" id="history-to" aria-label="Data final"></label>
+            <button class="btn btn-ghost btn-sm" type="button" id="btn-export-history"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="history-table">
+              <caption class="sr-only">Histórico de movimentações</caption>
+              <thead><tr><th scope="col">Data</th><th scope="col">Produto</th><th scope="col">Tipo</th><th scope="col" class="num">Qtd.</th><th scope="col" class="num">Custo</th><th scope="col">Origem</th><th scope="col">Observação</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="history-empty"></div>
+          <nav class="pagination" id="history-pagination" aria-label="Paginação do histórico"></nav>
+        </div>
+
+        <div class="tab-panel" id="estoque-panel-cadastros" role="tabpanel" hidden>
+          <div class="register-grid">
+            <section class="card" aria-labelledby="brands-title">
+              <div class="card-head"><div><p class="eyebrow">Catálogo</p><h2 id="brands-title">Marcas</h2></div></div>
+              <form class="inline-form" id="brand-form">
+                <label class="sr-only" for="brand-name">Nome da marca</label>
+                <input type="text" id="brand-name" placeholder="Nova marca" maxlength="60" required>
+                <button class="btn btn-primary btn-sm" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Adicionar</button>
+              </form>
+              <ul class="register-list" id="brand-list"></ul>
+            </section>
+            <section class="card" aria-labelledby="categories-title">
+              <div class="card-head"><div><p class="eyebrow">Catálogo</p><h2 id="categories-title">Categorias</h2></div></div>
+              <form class="inline-form" id="category-form">
+                <label class="sr-only" for="category-name">Nome da categoria</label>
+                <input type="text" id="category-name" placeholder="Nova categoria" maxlength="60" required>
+                <button class="btn btn-primary btn-sm" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Adicionar</button>
+              </form>
+              <ul class="register-list" id="category-list"></ul>
+            </section>
+            <section class="card" aria-labelledby="tags-title">
+              <div class="card-head"><div><p class="eyebrow">Catálogo</p><h2 id="tags-title">Subcategorias</h2></div></div>
+              <form class="inline-form" id="tag-form">
+                <label class="sr-only" for="tag-type">Tipo</label>
+                <select id="tag-type">
+                  <option value="tipo_produto">Tipo de produto</option>
+                  <option value="familia_olfativa">Família olfativa</option>
+                  <option value="linha">Linha</option>
+                </select>
+                <label class="sr-only" for="tag-name">Nome da subcategoria</label>
+                <input type="text" id="tag-name" placeholder="Novo valor" maxlength="60" required>
+                <button class="btn btn-primary btn-sm" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Adicionar</button>
+              </form>
+              <ul class="register-list" id="tag-list"></ul>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-clientes" data-view="clientes" aria-labelledby="clientes-title" hidden>
+      <div class="section-inner">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Módulo</p>
+            <h1 id="clientes-title">Clientes &amp; Campanhas</h1>
+            <p class="page-lead">Cadastro, histórico de compras e ações de relacionamento.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" type="button" id="btn-export-clients"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+            <button class="btn btn-primary" type="button" id="btn-new-client"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Novo cliente</button>
+          </div>
+        </header>
+        <div class="kpi-grid kpi-grid-compact" id="client-kpis"></div>
+        <nav class="tabs" role="tablist" aria-label="Seções de clientes" id="client-tabs">
+          <button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="client-panel-clients" data-tab="clients">Clientes</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="client-panel-campaigns" data-tab="campaigns">Campanhas</button>
+        </nav>
+        <div class="tab-panel is-active" id="client-panel-clients" role="tabpanel">
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="client-search" aria-label="Buscar clientes" placeholder="Buscar por nome, telefone, cidade ou etiqueta" autocomplete="off">
+            </label>
+            <select id="client-tag-filter" aria-label="Filtrar por etiqueta"><option value="">Todas as etiquetas</option></select>
+            <select id="client-status-filter" aria-label="Filtrar por situação">
+              <option value="ativos">Ativos</option>
+              <option value="inativos">Inativos</option>
+              <option value="todos">Todos</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="clients-table">
+              <caption class="sr-only">Clientes cadastrados</caption>
+              <thead><tr><th scope="col">Cliente</th><th scope="col">Contato</th><th scope="col">Cidade</th><th scope="col">Aniversário</th><th scope="col" class="num">Compras</th><th scope="col" class="num">Total</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="clients-empty"></div>
+          <nav class="pagination" id="clients-pagination" aria-label="Paginação de clientes"></nav>
+        </div>
+        <div class="tab-panel" id="client-panel-campaigns" role="tabpanel" hidden>
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="campaign-search" aria-label="Buscar campanhas" placeholder="Buscar campanha" autocomplete="off">
+            </label>
+            <button class="btn btn-primary" type="button" id="btn-new-campaign"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Nova campanha</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="campaigns-table">
+              <caption class="sr-only">Campanhas</caption>
+              <thead><tr><th scope="col">Campanha</th><th scope="col">Público</th><th scope="col" class="num">Pessoas</th><th scope="col">Criada em</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="campaigns-empty"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-pedidos" data-view="pedidos" aria-labelledby="pedidos-title" hidden>
+      <div class="section-inner">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Módulo</p>
+            <h1 id="pedidos-title">Pedidos &amp; Vendas</h1>
+            <p class="page-lead">Capte pedidos, separe, envie, entregue e receba — com estoque, financeiro e lucro conectados.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" type="button" id="btn-pick-list"><svg class="icon" aria-hidden="true"><use href="#i-package"></use></svg>Lista de separação</button>
+            <button class="btn btn-primary" type="button" id="btn-new-sale"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Novo pedido</button>
+          </div>
+        </header>
+        <div class="kpi-grid kpi-grid-compact" id="sale-kpis"></div>
+        <div class="toolbar">
+          <label class="search-field">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+            <input type="search" id="sale-search" aria-label="Buscar pedidos" placeholder="Buscar por número, cliente ou produto" autocomplete="off">
+          </label>
+          <select id="sale-status-filter" aria-label="Filtrar pedidos por status">
+            <option value="">Todos os status</option>
+            <option value="rascunho">Rascunho</option>
+            <option value="andamento">Em andamento</option>
+            <option value="receber">A receber</option>
+            <option value="confirmado">Confirmado (a separar)</option>
+            <option value="separado">Separado (a enviar)</option>
+            <option value="enviado">Enviado</option>
+            <option value="entregue">Entregue</option>
+            <option value="devolvido">Devolvido</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-export-sales"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="sales-table">
+            <caption class="sr-only">Pedidos e vendas</caption>
+            <thead><tr><th scope="col">Pedido</th><th scope="col">Data</th><th scope="col">Cliente</th><th scope="col" class="num">Itens</th><th scope="col" class="num">Total</th><th scope="col">Pagamento</th><th scope="col">Status</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="sales-empty"></div>
+        <nav class="pagination" id="sales-pagination" aria-label="Paginação de pedidos"></nav>
+      </div>
+    </section>
+
+    <section class="view" id="view-financeiro" data-view="financeiro" aria-labelledby="financeiro-title" hidden>
+      <div class="section-inner">
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Módulo</p>
+            <h1 id="financeiro-title">Financeiro</h1>
+            <p class="page-lead">Receitas, despesas, contas a pagar e a receber em um só painel.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-secondary" type="button" id="btn-export-finance"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Exportar</button>
+            <button class="btn btn-primary" type="button" id="btn-new-finance"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Novo lançamento</button>
+          </div>
+        </header>
+        <div class="kpi-grid kpi-grid-compact" id="finance-kpis"></div>
+        <nav class="tabs" role="tablist" aria-label="Seções do financeiro" id="finance-tabs">
+          <button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="finance-panel-overview" data-tab="overview">Visão geral</button>
+          <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="finance-panel-entries" data-tab="entries">Lançamentos</button>
+        </nav>
+        <div class="tab-panel is-active" id="finance-panel-overview" role="tabpanel">
+          <div class="dashboard-grid">
+            <section class="card" aria-labelledby="finance-chart-title">
+              <div class="card-head"><div><p class="eyebrow">Últimos 6 meses</p><h2 id="finance-chart-title">Receitas x despesas</h2></div></div>
+              <div id="finance-chart" class="chart" role="img" aria-label="Gráfico de receitas e despesas dos últimos seis meses"></div>
+              <div class="chart-legend"><span class="legend-in">Receitas</span><span class="legend-out">Despesas</span></div>
+            </section>
+            <section class="card" aria-labelledby="finance-upcoming-title">
+              <div class="card-head"><div><p class="eyebrow">Próximos vencimentos</p><h2 id="finance-upcoming-title">Contas em aberto</h2></div></div>
+              <div id="finance-upcoming"></div>
+            </section>
+          </div>
+        </div>
+        <div class="tab-panel" id="finance-panel-entries" role="tabpanel" hidden>
+          <div class="toolbar">
+            <label class="search-field">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              <input type="search" id="finance-search" aria-label="Buscar lançamentos financeiros" placeholder="Buscar descrição, categoria ou origem" autocomplete="off">
+            </label>
+            <select id="finance-type-filter" aria-label="Filtrar por tipo">
+              <option value="">Todos os tipos</option>
+              <option value="receita">Receitas</option>
+              <option value="despesa">Despesas</option>
+            </select>
+            <select id="finance-status-filter" aria-label="Filtrar por status">
+              <option value="">Todos os status</option>
+              <option value="pendente">Pendentes</option>
+              <option value="pago">Pagas</option>
+              <option value="cancelado">Canceladas</option>
+            </select>
+            <label class="field-inline">Mês <input type="month" id="finance-month" aria-label="Filtrar por mês"></label>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="finance-table">
+              <caption class="sr-only">Lançamentos financeiros</caption>
+              <thead><tr><th scope="col">Vencimento</th><th scope="col">Descrição</th><th scope="col">Tipo</th><th scope="col">Categoria</th><th scope="col" class="num">Valor</th><th scope="col">Status</th><th scope="col">Origem</th><th scope="col" class="actions-col">Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="finance-empty"></div>
+          <nav class="pagination" id="finance-pagination" aria-label="Paginação de lançamentos"></nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>UniHub V4 · Developed by <strong>UliFran / Ulisystem®</strong></span>
+    <span class="footer-dot" aria-hidden="true">·</span>
+    <span>Construído com <strong>Claude</strong> (Anthropic)</span>
+    <span class="footer-dot" aria-hidden="true">·</span>
+    <span>dados neste aparelho, offline-first</span>
+  </footer>
+
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="false"></div>
+
+  <dialog class="dialog" id="confirm-dialog" aria-labelledby="confirm-title">
+    <form method="dialog" class="dialog-form">
+      <header class="dialog-head">
+        <div><p class="eyebrow">Confirmação</p><h2 id="confirm-title">Confirmar ação</h2></div>
+        <button class="btn btn-icon btn-ghost" type="submit" value="cancel" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+      </header>
+      <div class="dialog-body"><p id="confirm-message"></p></div>
+      <footer class="dialog-foot">
+        <button class="btn btn-secondary" type="submit" value="cancel">Cancelar</button>
+        <button class="btn btn-danger" type="submit" value="confirm" id="confirm-ok">Confirmar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="dialog dialog-sm" id="prompt-dialog" aria-labelledby="prompt-title">
+    <form method="dialog" class="dialog-form" id="prompt-form">
+      <header class="dialog-head">
+        <div><p class="eyebrow">Edição</p><h2 id="prompt-title">Editar</h2></div>
+        <button class="btn btn-icon btn-ghost" type="submit" value="cancel" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+      </header>
+      <div class="dialog-body">
+        <label class="field"><span id="prompt-label">Valor</span><input type="text" id="prompt-input" maxlength="80" required></label>
+      </div>
+      <footer class="dialog-foot">
+        <button class="btn btn-secondary" type="submit" value="cancel">Cancelar</button>
+        <button class="btn btn-primary" type="submit" value="save">Salvar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="settings-dialog" aria-labelledby="settings-title">
+    <form method="dialog" class="dialog-form">
+      <header class="dialog-head">
+        <div><p class="eyebrow">Sistema</p><h2 id="settings-title">Configurações e backup</h2></div>
+        <button class="btn btn-icon btn-ghost" type="submit" value="cancel" aria-label="Fechar"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
+      </header>
+      <div class="dialog-body settings-body">
+        <section class="settings-block">
+          <h3>Identificação</h3>
+          <div class="form-grid">
+            <label class="field" for="settings-store"><span>Nome do negócio</span><input type="text" id="settings-store" maxlength="60" placeholder="UniHub"></label>
+            <label class="field" for="settings-consultant"><span>Consultora / responsável</span><input type="text" id="settings-consultant" maxlength="80" placeholder="Seu nome"></label>
+            <label class="field span-2" for="settings-pix"><span>Chave Pix (aparece no resumo do pedido)</span><input type="text" id="settings-pix" maxlength="80" placeholder="CPF, e-mail, telefone ou chave aleatória"></label>
+          </div>
+          <button class="btn btn-primary btn-sm" type="button" id="btn-save-settings">Salvar identificação</button>
+        </section>
+        <section class="settings-block">
+          <h3>Backup dos dados</h3>
+          <p class="muted">Os dados ficam no IndexedDB deste aparelho (sem o limite de 5 MB do V3). Baixe um backup com frequência — ele é o que protege contra perda do aparelho ou limpeza do navegador.</p>
+          <div class="button-row">
+            <button class="btn btn-secondary" type="button" id="btn-export-backup"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Baixar backup JSON</button>
+            <button class="btn btn-secondary" type="button" id="btn-restore-backup"><svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg>Restaurar backup</button>
+            <input type="file" id="backup-file" accept="application/json,.json" hidden>
+          </div>
+          <p class="muted" id="backup-last"></p>
+          <p class="muted" id="storage-info"></p>
+        </section>
+        <section class="settings-block">
+          <h3>Cópias automáticas</h3>
+          <p class="muted">Uma por dia de uso e antes de restaurar ou apagar. Ficam só neste aparelho (as 7 mais recentes).</p>
+          <ul class="register-list" id="snapshot-list"></ul>
+        </section>
+        <section class="settings-block">
+          <h3>Aplicativo</h3>
+          <p class="muted">Instale o UniHub na tela inicial do Android ou do Windows para abrir como app e usar sem internet.</p>
+          <div class="button-row">
+            <button class="btn btn-secondary" type="button" id="btn-install-app" hidden><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Instalar o aplicativo</button>
+          </div>
+        </section>
+        <section class="settings-block">
+          <h3>Dados de demonstração</h3>
+          <p class="muted">Cria produtos, clientes, pedidos e lançamentos fictícios para explorar o UniHub (só funciona com a base vazia).</p>
+          <div class="button-row">
+            <button class="btn btn-secondary" type="button" id="btn-load-demo"><svg class="icon" aria-hidden="true"><use href="#i-spark"></use></svg>Carregar demonstração</button>
+          </div>
+        </section>
+        <section class="settings-block settings-danger">
+          <h3>Zona de perigo</h3>
+          <p class="muted">Apaga produtos, clientes, pedidos e financeiro deste aparelho. Uma cópia automática é guardada antes.</p>
+          <div class="button-row">
+            <button class="btn btn-danger" type="button" id="btn-reset-data"><svg class="icon" aria-hidden="true"><use href="#i-trash"></use></svg>Apagar todos os dados</button>
+          </div>
+        </section>
+        <section class="settings-block">
+          <h3>Sobre</h3>
+          <p class="muted"><strong>UniHub V4</strong> · schema <span id="schema-version">2</span> · local-first com IndexedDB.</p>
+          <p class="muted">Criado por <strong>UliFran / Ulisystem®</strong>, com desenvolvimento assistido por <strong>Claude</strong> (Anthropic).</p>
+        </section>
+      </div>
+      <footer class="dialog-foot">
+        <button class="btn btn-secondary" type="submit" value="cancel">Fechar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog class="dialog dialog-lg" id="product-dialog" aria-labelledby="product-dialog-title"></dialog>
+  <dialog class="dialog dialog-sm" id="entry-dialog" aria-labelledby="entry-dialog-title"></dialog>
+  <dialog class="dialog" id="client-dialog" aria-labelledby="client-dialog-title"></dialog>
+  <dialog class="dialog dialog-lg" id="sale-dialog" aria-labelledby="sale-dialog-title"></dialog>
+  <dialog class="dialog" id="finance-dialog" aria-labelledby="finance-dialog-title"></dialog>
+  <dialog class="dialog" id="campaign-dialog" aria-labelledby="campaign-dialog-title"></dialog>
+  <dialog class="dialog dialog-lg" id="aux-dialog" aria-labelledby="aux-dialog-title"></dialog>
+  <dialog class="dialog dialog-lg" id="detail-dialog" aria-labelledby="detail-dialog-title"></dialog>
+  <dialog class="dialog dialog-lg" id="import-dialog" aria-labelledby="import-dialog-title"></dialog>
+
+  <noscript><p class="noscript">Este Hub precisa de JavaScript habilitado para funcionar.</p></noscript>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/modules/dashboard.js"></script>
+  <script src="js/modules/estoque.js"></script>
+  <script src="js/modules/clientes.js"></script>
+  <script src="js/modules/pedidos.js"></script>
+  <script src="js/modules/financeiro.js"></script>
+  <script src="js/import.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

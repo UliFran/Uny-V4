@@ -1,0 +1,59 @@
+{
+  "name": "UniHub V4 — Gestão Natura",
+  "short_name": "UniHub",
+  "description": "Estoque, clientes, pedidos e financeiro para vendas diretas — funciona offline.",
+  "lang": "pt-BR",
+  "start_url": "./index.html#/dashboard",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "categories": [
+    "business",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Novo pedido",
+      "short_name": "Pedido",
+      "url": "./index.html#/pedidos"
+    },
+    {
+      "name": "Estoque",
+      "short_name": "Estoque",
+      "url": "./index.html#/estoque"
+    },
+    {
+      "name": "Financeiro",
+      "short_name": "Financeiro",
+      "url": "./index.html#/financeiro"
+    }
+  ]
+}

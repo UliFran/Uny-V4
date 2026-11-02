@@ -1,0 +1,25 @@
+# Dependências e artefatos locais
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Backups e exportações locais
+*.backup.json
+hub-silene-backup-*.json
+unihub-backup-*.json
+unihub-copia-*.json
+_site/
+*.csv
+!doc/*.csv
+
+# Logs e temporários
+*.log
+tmp/
